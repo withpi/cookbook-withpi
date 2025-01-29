@@ -1,6 +1,6 @@
 {
-  "description": "Write a children's story in the style of Aesop's Fables teaching a life lesson specified by the user",
-  "name": "default",
+  "description": "Write a children's story in the style of Aesop's Fables teaching a life lesson specified by the user.  Provide just the story with no extra content.",
+  "name": "aesop_ai",
   "dimensions": [
     {
       "description": "What elements contribute to a well-structured children's story?",
