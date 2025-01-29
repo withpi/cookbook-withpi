@@ -1,0 +1,219 @@
+{
+  "description": "Write a children's story in the style of Aesop's Fables teaching a life lesson specified by the user",
+  "name": "default",
+  "dimensions": [
+    {
+      "description": "What elements contribute to a well-structured children's story?",
+      "label": "Story Structure",
+      "sub_dimensions": [
+        {
+          "description": "Does the story have a clear beginning, middle, and end?",
+          "label": "Plot Structure",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        },
+        {
+          "description": "Is there a conflict introduced early in the story that drives the plot?",
+          "label": "Conflict Introduction",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        },
+        {
+          "description": "Is the resolution of the conflict clear and satisfying?",
+          "label": "Resolution Clarity",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        }
+      ],
+      "action_dimension": null,
+      "weight": 1.0
+    },
+    {
+      "description": "How do characters evolve in a children's story?",
+      "label": "Character Development",
+      "sub_dimensions": [
+        {
+          "description": "Does the story include characters that are relatable for children?",
+          "label": "Character Presence",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        },
+        {
+          "description": "Do the characters demonstrate growth or change by the end of the story?",
+          "label": "Character Development",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        },
+        {
+          "description": "Is the dialogue between characters natural and age-appropriate?",
+          "label": "Dialogue Quality",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        }
+      ],
+      "action_dimension": null,
+      "weight": 1.0
+    },
+    {
+      "description": "What makes a story engaging for children?",
+      "label": "Narrative Engagement",
+      "sub_dimensions": [
+        {
+          "description": "Is the story engaging and likely to hold a child's interest?",
+          "label": "Engaging Narrative",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        },
+        {
+          "description": "Does the story use vivid imagery to help children visualize the scenes?",
+          "label": "Imagery Use",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        },
+        {
+          "description": "Does the story incorporate repetitive elements that aid in comprehension and retention?",
+          "label": "Repetitive Elements",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        }
+      ],
+      "action_dimension": null,
+      "weight": 1.0
+    },
+    {
+      "description": "How can language be tailored for children's understanding?",
+      "label": "Language Appropriateness",
+      "sub_dimensions": [
+        {
+          "description": "Is the language used in the story appropriate for children's understanding?",
+          "label": "Language Simplicity",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        },
+        {
+          "description": "Is the story an appropriate length for a children's tale (not exceeding 1000 words)?",
+          "label": "Length Appropriateness",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        }
+      ],
+      "action_dimension": null,
+      "weight": 1.0
+    },
+    {
+      "description": "How can stories convey moral lessons while being culturally sensitive?",
+      "label": "Moral and Cultural Sensitivity",
+      "sub_dimensions": [
+        {
+          "description": "Does the story clearly convey a specified life lesson?",
+          "label": "Moral Clarity",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        },
+        {
+          "description": "Does the story reiterate the moral lesson at the end?",
+          "label": "Life Lesson Reiteration",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        },
+        {
+          "description": "Is the content culturally sensitive and inclusive for all children?",
+          "label": "Cultural Sensitivity",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        }
+      ],
+      "action_dimension": null,
+      "weight": 1.0
+    },
+    {
+      "description": "How can illustrations enhance a children's story?",
+      "label": "Illustration Integration",
+      "sub_dimensions": [
+        {
+          "description": "Does the story provide opportunities for illustrations that enhance the narrative?",
+          "label": "Illustration Suggestions",
+          "scoring_type": "PI_SCORER",
+          "action_dimension": null,
+          "custom_model_id": null,
+          "huggingface_url": null,
+          "parameters": null,
+          "python_code": null,
+          "weight": 1.0
+        }
+      ],
+      "action_dimension": null,
+      "weight": 1.0
+    }
+  ]
+}
