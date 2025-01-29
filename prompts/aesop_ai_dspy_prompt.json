@@ -1,0 +1,10 @@
+[
+  {
+    "content": "Your input fields are:\n1. `input` (str): the application's input\n\nYour output fields are:\n1. `reasoning` (str)\n2. `response` (str): the application's response\n\nAll interactions will be structured in the following way, with the appropriate values filled in.\n\n[[ ## input ## ]]\n{input}\n\n[[ ## reasoning ## ]]\n{reasoning}\n\n[[ ## response ## ]]\n{response}\n\n[[ ## completed ## ]]\n\nIn adhering to this structure, your objective is: \n        Craft an engaging children's story reminiscent of Aesop's Fables that encapsulates the life lesson chosen by the user. Adhere strictly to the convention of using animals as characters, clever plots, and a moral at the end. Present only the tale without any additional commentary or content.",
+    "role": "system"
+  },
+  {
+    "content": "[[ ## input ## ]]\n{{ input }}\n\nRespond with the corresponding output fields, starting with the field `reasoning`, then `response`, and then ending with the marker for `completed`.",
+    "role": "user"
+  }
+]
