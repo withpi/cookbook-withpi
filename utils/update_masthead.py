@@ -53,6 +53,7 @@ PI_SETUP = {
         "id": "pi-setup"
       },
       "outputs": [],
+      "execution_count": 0,
       "source": [
         "%%capture\n",
         "\n",
