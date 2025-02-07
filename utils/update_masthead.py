@@ -52,6 +52,7 @@ PI_SETUP = {
       "metadata": {
         "id": "pi-setup"
       },
+      "outputs": [],
       "source": [
         "%%capture\n",
         "\n",
