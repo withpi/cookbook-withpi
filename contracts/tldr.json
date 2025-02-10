@@ -1,0 +1,518 @@
+{
+  "name": "TLDR Summarization",
+  "description": "Generate a summarization of a subreddit post. Here are some requirement of the summarization:\n1. Make sure that the summarization is 1 to 3 sentence long.\n2. Make sure that the summarization state the important points of the post\n3. Make sure that the summarization should make sense on its own.\n",
+  "id": "2442eaa3-740c-4b9a-aec6-25e22f587ace",
+  "dimensions": [
+    {
+      "description": "Does the response follow basic structural requirements?",
+      "label": "Structure and Length",
+      "id": "57867396-c5fd-4e98-891b-96539f00e3de",
+      "is_enable": true,
+      "parameters": [
+        0.1332473975028708,
+        0.2529290277853384,
+        0.30664969197847214,
+        0.4593723298970502,
+        0.4991104183446312,
+        0.7721932033791447
+      ],
+      "weight": 0.8883154554891994,
+      "action_dimension": null,
+      "sub_dimensions": [
+        {
+          "description": "Does the response contain between 1 and 5 sentences?",
+          "label": "Length Check",
+          "id": "6a74a751-b378-4460-a4b5-cb7116afeef0",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.020406390643586896,
+            0.04888098126116545,
+            0.2964360017579144,
+            0.3277022376019641,
+            0.5655307904171617,
+            0.8120937650483089
+          ],
+          "weight": 0.013862807575771558
+        },
+        {
+          "description": "Does the response has more than 2 sentences?",
+          "label": "Conclusion Included",
+          "id": "ff9670a4-5b83-46b3-89e6-44595f0b41ee",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.0,
+            0.21147571786645175,
+            0.42650943294656596,
+            0.5184031743322982,
+            0.8097073256111131,
+            0.8791602300214402
+          ],
+          "weight": 0.7918360858192778
+        },
+        {
+          "description": "Does each sentence in the response contain a subject and a predicate?",
+          "label": "Complete Sentences",
+          "id": "dbae85bd-fdfc-4afd-8e26-a9102f3bc7e0",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.32798626652327756,
+            0.7482953891797576,
+            0.8567425407387255,
+            0.9745793360720768,
+            0.9804524801512213,
+            1.0
+          ],
+          "weight": 0.10641026080285321
+        }
+      ]
+    },
+    {
+      "description": "Is the content accurate and complete?",
+      "label": "Content Accuracy",
+      "id": "dbc174a1-9b11-4ec3-bdac-0c9509b135db",
+      "is_enable": true,
+      "parameters": [
+        0.4933783789604036,
+        0.49486305643892986,
+        0.502101386394952,
+        0.5237197441799166,
+        0.5970976442873586,
+        0.6730328430685159
+      ],
+      "weight": 0.5260047721858335,
+      "action_dimension": null,
+      "sub_dimensions": [
+        {
+          "description": "Does the response mention the primary topic stated in the original post?",
+          "label": "Main Point Coverage",
+          "id": "66123e7b-29aa-42f1-9b46-df041ce26fe5",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.30064740573447796,
+            0.32422484744299473,
+            0.33258263772587776,
+            0.36057399982231714,
+            0.3915970969188448,
+            0.45439201635189025
+          ],
+          "weight": 0.49735094963145043
+        },
+        {
+          "description": "Do all statements in the response refer to the information provided in the original post?",
+          "label": "Factual Accuracy",
+          "id": "d8a56b8e-c49c-4263-a79f-5ba690415bce",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.33946059355065356,
+            0.3984877740384647,
+            0.42073465347655326,
+            0.42347146480188724,
+            0.5116020460447046,
+            0.5546642170228713
+          ],
+          "weight": 0.47857726150972213
+        }
+      ]
+    },
+    {
+      "description": "Does the response follow proper grammar and mechanics?",
+      "label": "Grammar and Mechanics",
+      "id": "1c3da4cd-52db-40f1-9a87-71bb6f6ac901",
+      "is_enable": true,
+      "parameters": [
+        0.31577632188856813,
+        0.4310182368463282,
+        0.43316389603269984,
+        0.540320853030816,
+        0.5604792702141526,
+        0.6039868846620152
+      ],
+      "weight": 0.19765904021510058,
+      "action_dimension": null,
+      "sub_dimensions": [
+        {
+          "description": "Does each sentence in the response follow standard English grammar rules?",
+          "label": "Proper Grammar",
+          "id": "66f05cdc-83b0-4e0a-9017-40b398025800",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.34356123786320525,
+            0.4209895651325892,
+            0.4485713388417809,
+            0.505314816432099,
+            0.5603209162055991,
+            0.5773231938362882
+          ],
+          "weight": 0.5699978490094494
+        },
+        {
+          "description": "Are all words in the response spelled according to standard English spelling?",
+          "label": "Proper Spelling",
+          "id": "29c4c278-0fe4-43bd-b89e-e01ebf0f4ffe",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.4508595280757406,
+            0.48699686910776413,
+            0.5561564666903811,
+            0.574219732798405,
+            0.5764372699455287,
+            0.5889566279067829
+          ],
+          "weight": 0.5600427941027271
+        },
+        {
+          "description": "Does each sentence in the response end with appropriate punctuation marks?",
+          "label": "Proper Punctuation",
+          "id": "64bd7b0c-793a-4fee-be17-39da48c63785",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.42891907580822425,
+            0.4547409292710525,
+            0.4793843249482613,
+            0.48699948603474125,
+            0.5361203498074738,
+            0.5573325466702
+          ],
+          "weight": 0.5148299869044264
+        },
+        {
+          "description": "Does the response capitalize the first letter of sentences and proper nouns?",
+          "label": "Proper Capitalization",
+          "id": "1a3f9f7f-e444-4a9b-8420-e8a26d26f23a",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.4068702995567384,
+            0.43843952200401776,
+            0.49333749369894686,
+            0.5190374852974668,
+            0.5305242283440206,
+            0.6124001353532347
+          ],
+          "weight": 0.5800979687191673
+        },
+        {
+          "description": "Are all names and titles in the response written with initial capital letters?",
+          "label": "Proper Names",
+          "id": "fefd4002-440a-4e70-9d0f-371252671c40",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.442491346926689,
+            0.4469529452508525,
+            0.512366560974578,
+            0.5629578682396859,
+            0.5666952528638793,
+            0.5805852646387197
+          ],
+          "weight": 0.5213037834333071
+        }
+      ]
+    },
+    {
+      "description": "Is the language style of the response appropriate and effective?",
+      "label": "Language Style",
+      "id": "e8938aba-4452-4106-be40-413107b53f49",
+      "is_enable": true,
+      "parameters": [
+        0.20280774346266695,
+        0.2850250706810634,
+        0.7670746726889339,
+        0.8026657985088963,
+        0.9862560131000264,
+        0.9888918932287221
+      ],
+      "weight": 0.8804493627006624,
+      "action_dimension": null,
+      "sub_dimensions": [
+        {
+          "description": "Does the subject perform the action in at least 80% of the sentences in the response?",
+          "label": "Active Voice",
+          "id": "a798096d-62b6-4438-80bb-3d4b40690df2",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.1412557335762457,
+            0.3704129587543607,
+            0.4389087404267501,
+            0.49591294499740723,
+            0.5009723456856664,
+            0.9504562435137158
+          ],
+          "weight": 0.3669257056151787
+        },
+        {
+          "description": "Are verbs in present tense unless describing events explicitly stated as past in the original post?",
+          "label": "Present Tense",
+          "id": "ef9292d1-50ea-4c5a-81ba-01b93d07c58d",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.06947064558553971,
+            0.4411307283702867,
+            0.5203746143133526,
+            0.5624445031086288,
+            0.644702737555993,
+            0.7442747917209855
+          ],
+          "weight": 0.8853906186219015
+        },
+        {
+          "description": "Is each sentence in the response free of filler words like 'very', 'really', 'basically'?",
+          "label": "Concise Language",
+          "id": "0c8c1bf6-cba6-42fc-8c36-58b3998ba766",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.1255039057571473,
+            0.18097126401120753,
+            0.22701193878677098,
+            0.304375266942631,
+            0.6359211204875304,
+            0.7569784086418423
+          ],
+          "weight": 0.9783892245907218
+        },
+        {
+          "description": "Does the response use similar emotional or neutral words as the original post?",
+          "label": "Original Tone",
+          "id": "d5e7681c-62d8-4eb5-afd1-76f54226c55b",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.007341786943293189,
+            0.16956992435332538,
+            0.300615352193613,
+            0.41988309580499034,
+            0.5257854620845624,
+            0.819477696720005
+          ],
+          "weight": 0.1575178551321904
+        }
+      ]
+    },
+    {
+      "description": "Is the response clear and well-connected?",
+      "label": "Clarity and Flow",
+      "id": "19f92ee4-5a6a-4e1e-8468-e8b52b52285e",
+      "is_enable": true,
+      "parameters": [
+        0.26860518401816263,
+        0.4749631973988652,
+        0.48491391905307185,
+        0.5110988156094979,
+        0.5149738451390058,
+        0.7162175210912916
+      ],
+      "weight": 0.3325354509638426,
+      "action_dimension": null,
+      "sub_dimensions": [
+        {
+          "description": "Does the response include all necessary context words or phrases to make it independently readable?",
+          "label": "Context Preservation",
+          "id": "ba7cee3b-26f8-4b2d-941f-844a8a8c8ccd",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.3383248368838831,
+            0.40817031315661345,
+            0.4967039627004115,
+            0.5973836376003956,
+            0.6047781835812782,
+            0.6960648701764681
+          ],
+          "weight": 0.4927644454611492
+        },
+        {
+          "description": "Does each sentence in the response directly connect to the previous sentence through shared subjects, objects, or transition words?",
+          "label": "Logical Flow",
+          "id": "40368f76-6684-4691-8f94-35bb2a83feb5",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.4136675447665843,
+            0.5591573705783938,
+            0.626970951472914,
+            0.6662694501135383,
+            0.6996263498813509,
+            0.7836111094167214
+          ],
+          "weight": 0.299013822042888
+        },
+        {
+          "description": "Is the main subject of the post mentioned in the first sentence of the response?",
+          "label": "Clear Subject",
+          "id": "da95fc48-9fb9-4300-a7e8-e77a9b0e27ef",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.31844877848416653,
+            0.5417044797451106,
+            0.5680516775704609,
+            0.5865620200941397,
+            0.6008505798698508,
+            0.6044793104953055
+          ],
+          "weight": 0.7980899318410681
+        },
+        {
+          "description": "Does the response include specific dates or time references mentioned in the original post?",
+          "label": "Clear Timeframe",
+          "id": "4a33f675-f0c8-42a6-9123-3d4eff315679",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.33864642148298146,
+            0.3828648796834359,
+            0.4210824915887136,
+            0.4933348705043236,
+            0.5265000254514041,
+            0.6958442244866481
+          ],
+          "weight": 0.6066123147869167
+        },
+        {
+          "description": "Does the response include the main verbs or actions from the original post?",
+          "label": "Key Actions",
+          "id": "3793be63-b6b2-4429-853d-5ab6e72f2e3f",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.23124591555010648,
+            0.4304615847706869,
+            0.6038012618363546,
+            0.7027063500921673,
+            0.7186362423042374,
+            0.7685587538729317
+          ],
+          "weight": 0.34600240892619916
+        },
+        {
+          "description": "Does the response use connecting words (and, but, because, therefore) between related ideas?",
+          "label": "Clear Relationships",
+          "id": "e0037806-a7ba-4e1b-9692-1a32925bd48b",
+          "is_enable": true,
+          "scoring_type": "PI_SCORER",
+          "huggingface_url": null,
+          "llm_as_a_judge_model": null,
+          "python_code": null,
+          "custom_model_id": null,
+          "action_dimension": null,
+          "parameters": [
+            0.3498129845565954,
+            0.35279199636910946,
+            0.42329726757353175,
+            0.46319135589922256,
+            0.728616435084933,
+            0.8250269881610861
+          ],
+          "weight": 0.441783061575689
+        }
+      ]
+    }
+  ],
+  "should_vote": false
+}
