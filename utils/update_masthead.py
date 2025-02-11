@@ -53,7 +53,7 @@ PI_SETUP = {
         "id": "pi-setup"
       },
       "outputs": [],
-      "execution_count": 0,
+      "execution_count": None,
       "source": [
         "%%capture\n",
         "\n",
@@ -61,11 +61,47 @@ PI_SETUP = {
         "\n",
         "import os\n",
         "from google.colab import userdata\n",
+        "from litellm import completion\n",
         "from withpi import PiClient\n",
         "\n",
         "os.environ[\"WITHPI_API_KEY\"] = userdata.get('WITHPI_API_KEY')\n",
         "\n",
-        "client = PiClient()"
+        "client = PiClient()\n",
+        "\n",
+        "def print_contract(contract):\n",
+        "  for dimension in contract.dimensions:\n"
+        "    print(dimension.label)\n",
+        "  for sub_dimension in dimension.sub_dimensions:\n",
+        "    print(f\"\\t{sub_dimension.description}\")\n",
+        "\n",
+        "def generate(system: str, user: str, model: str) -> str:\n",
+        "  messages = [\n",
+        "    {\n",
+        "      \"content\": system,\n",
+        "      \"role\": \"system\"\n",
+        "    },\n",
+        "    {\n",
+        "      \"content\": prompt,\n",
+        "      \"role\": \"user\"\n",
+        "    }\n",
+        "  ]\n",
+        "  return completion(model=model,\n",
+        "                    messages=messages).choices[0].message.content\n",
+        "\n",
+        "class printer(str):\n",
+        "  def __repr__(self):\n",
+        "    return self\n",
+        "def prettyprint(response: str):\n",
+        "  display(printer(response))\n",
+        "\n",
+        "def print_scores(pi_scores):\n",
+        "  for dimension_name, dimension_scores in pi_scores.dimension_scores.items():\n",
+        "    print(f\"{dimension_name}: {dimension_scores.total_score}\")\n",
+        "    for subdimension_name, subdimension_score in dimension_scores.subdimension_scores.items():\n",
+        "      print(f\"\\t{subdimension_name}: {subdimension_score}\")\n",
+        "    print(\"\\n\")\n",
+        "  print(\"---------------------\")\n",
+        "  print(f\"Total score: {pi_scores.total_score}\")"
       ]
     }
 
@@ -88,6 +124,13 @@ def main():
         # 2 should be the introduction cell specific to the notebook
         write_cell(colab, PI_SETUP_MARKDOWN, 3)
         write_cell(colab, PI_SETUP, 4)
+        # For cleanliness, purge outputs and execution counts from all cells.
+        for cell in colab["cells"]:
+            if "outputs" in cell:
+              cell["outputs"] = []
+            if "execution_count" in cell:
+              cell["execution_count"] = None
+        colab["metadata"]["language_info"] = { "name": "python" }
         f.write_text(json.dumps(colab, indent=2))
 
 if __name__ == "__main__":
