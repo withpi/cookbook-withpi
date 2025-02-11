@@ -124,14 +124,14 @@ def main():
         # 2 should be the introduction cell specific to the notebook
         write_cell(colab, PI_SETUP_MARKDOWN, 3)
         write_cell(colab, PI_SETUP, 4)
-        f.write_text(json.dumps(colab, indent=2))
-        
         # For cleanliness, purge outputs and execution counts from all cells.
         for cell in colab["cells"]:
             if "outputs" in cell:
               cell["outputs"] = []
             if "execution_count" in cell:
               cell["execution_count"] = None
+        colab["metadata"]["language_info"] = { "name": "python" }
+        f.write_text(json.dumps(colab, indent=2))
 
 if __name__ == "__main__":
     main()
