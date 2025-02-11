@@ -1,0 +1,117 @@
+%%capture
+
+%pip install withpi litellm httpx datasets jinja2 tqdm
+
+# Import a bunch of useful libraries for later.
+from concurrent.futures import ThreadPoolExecutor
+import json
+import os
+from pathlib import Path
+import re
+
+import datasets
+from google.colab import files, userdata
+import httpx
+import jinja2
+from litellm import completion
+from tqdm.notebook import tqdm
+from withpi import PiClient
+from withpi.types import Contract
+
+# Load the notebook secret into the environment so the Pi Client can access it.
+os.environ["WITHPI_API_KEY"] = userdata.get('WITHPI_API_KEY')
+
+client = PiClient()
+
+def print_contract(contract: Contract):
+  """print_contract pretty-prints a contract"""
+  for dimension in contract.dimensions:
+    print(dimension.label)
+    for sub_dimension in dimension.sub_dimensions:
+      print(f"\t{sub_dimension.description}")
+
+def generate(system: str, user: str, model: str) -> str:
+  """generate passes the provided system and user prompts into the given model
+  via LiteLLM"""
+  messages = [
+    {
+      "content": system,
+      "role": "system"
+    },
+    {
+      "content": user,
+      "role": "user"
+    }
+  ]
+  return completion(model=model,
+                    messages=messages).choices[0].message.content
+
+class printer(str):
+  """printer makes strings with embedded newlines print more nicely"""
+  def __repr__(self):
+    return self
+def print_response(response: str):
+  """print_response pretty-prints an LLM response, respecting newlines"""
+  display(printer(response))
+
+def print_scores(pi_scores):
+  """print_scores pretty-prints a Pi Score response as a table."""
+  for dimension_name, dimension_scores in pi_scores.dimension_scores.items():
+    print(f"{dimension_name}: {dimension_scores.total_score}")
+    for subdimension_name, subdimension_score in dimension_scores.subdimension_scores.items():
+      print(f"\t{subdimension_name}: {subdimension_score}")
+    print("\n")
+  print("---------------------")
+  print(f"Total score: {pi_scores.total_score}")
+
+def save_file(filename: str, model: str):
+  """save_file offers to download the model with the given filename"""
+  Path(filename).write_text(model)
+  files.download(filename)
+
+def load_contract(url: str) -> Contract:
+  """load_contract pulls a Contract JSON blob locally with validation."""
+  resp = httpx.get(url)
+  return Contract.model_validate_json(resp.content)
+
+def load_and_split_dataset(url: str) -> datasets.DatasetDict:
+  """load_and_split_dataset pulls in the Parquet file at url and does a 90/10 split"""
+  return datasets.load_dataset('parquet', data_files=url, split="train").train_test_split(test_size=0.1)
+
+def do_bulk_inference(dataset, system, model):
+  """do_bulk_inference performs inference on the 'input' column of dataset, using
+  the provided system prompt.  The model identified will be used via LiteLLM"""
+
+  def do_generate(user, pbar):
+    result = generate(system, user, model)
+    pbar.update(1)
+    return result
+
+  futures = []
+  pbar = tqdm(total=len(dataset))
+  with ThreadPoolExecutor(max_workers=4) as executor:
+    for row in dataset:
+      futures.append(executor.submit(do_generate, row["input"], pbar))
+  return [future.result() for future in futures]
+
+def do_bulk_templated_inference(dataset, optimized, model):
+  """do_bulk_templated_inference performs inference on the 'input' column of dataset,
+  using the provided optimized prompt.  It should be a Jinja2 template as returned
+  by DSPy"""
+  prompt_template = jinja2.Template(optimized)
+  result_extractor = re.compile(r".*\[\[ ## response ## \]\](.*)\[\[ ## completed ## \]\]", re.DOTALL)
+
+  def do_generate(prompt: str, pbar) -> str:
+    messages = json.loads(prompt_template.render(input=prompt))
+    result = completion(model=model,
+                        messages=messages).choices[0].message.content
+
+    pbar.update(1)
+    return result_extractor.match(result).group(1)
+
+  futures = []
+  pbar = tqdm(total=len(dataset))
+  with ThreadPoolExecutor(max_workers=4) as executor:
+    for row in dataset:
+      futures.append(executor.submit(do_generate, row["input"], pbar))
+  return [future.result() for future in futures]
