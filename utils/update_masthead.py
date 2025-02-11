@@ -63,6 +63,7 @@ PI_SETUP = {
         "from google.colab import userdata\n",
         "from litellm import completion\n",
         "from withpi import PiClient\n",
+        "from withpi.types import Contract\n",
         "from pathlib import Path\n",
         "from google.colab import files\n",
         "import datasets\n",
@@ -72,7 +73,7 @@ PI_SETUP = {
         "client = PiClient()\n",
         "\n",
         "def print_contract(contract):\n",
-        "  for dimension in contract.dimensions:\n"
+        "  for dimension in contract.dimensions:\n",
         "    print(dimension.label)\n",
         "    for sub_dimension in dimension.sub_dimensions:\n",
         "      print(f\"\\t{sub_dimension.description}\")\n",
@@ -110,6 +111,10 @@ PI_SETUP = {
         "  filename = 'aesop_ai.json'\n",
         "  Path(filename).write_text(model.model_dump_json(indent=2))\n",
         "  files.download(filename)",
+        "\n",
+        "def load_contract(url: str): -> Contract\n",
+        "  resp = httpx.get(url)\n",
+        "  return Contract.model_validate_json(resp.content)\n",
       ]
     }
 
