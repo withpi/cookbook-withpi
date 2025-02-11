@@ -91,7 +91,7 @@ PI_SETUP = {
         "class printer(str):\n",
         "  def __repr__(self):\n",
         "    return self\n",
-        "def prettyprint(response: str):\n",
+        "def print_response(response: str):\n",
         "  display(printer(response))\n",
         "\n",
         "def print_scores(pi_scores):\n",
