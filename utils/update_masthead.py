@@ -112,7 +112,7 @@ PI_SETUP = {
         "\n",
         "def save_file(filename: str, model):\n",
         "  filename = 'aesop_ai.json'\n",
-        "  Path(filename).write_text(model.model_dump_json(indent=2))\n",
+        "  Path(filename).write_text(model)\n",
         "  files.download(filename)\n",
         "\n",
         "def load_contract(url: str) -> Contract:\n",
