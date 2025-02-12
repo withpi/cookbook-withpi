@@ -54,7 +54,7 @@ PI_SETUP = {
       },
       "outputs": [],
       "execution_count": None,
-      "source": [f"{line}\n" for line in Path("utils/shared.py.txt").read_text().split("\n")]
+      "source": [f"{line}\n" for line in Path("utils/shared.py.txt").read_text().strip().split("\n")]
     }
 
 def write_cell(colab, cell, index):
