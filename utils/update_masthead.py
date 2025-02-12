@@ -63,6 +63,19 @@ PI_SETUP_GPU_MARKDOWN = {
       }
     }
 
+SHARED_SOURCE = Path("utils/shared.py.txt").read_text().strip().split("\n")
+GPU_SOURCE = Path("utils/gpu.py.txt").read_text().strip().split("\n")
+
+PI_SETUP_GPU = {
+      "cell_type": "code",
+      "metadata": {
+        "id": "pi-setup"
+      },
+      "outputs": [],
+      "execution_count": None,
+      "source": [f"{line}\n" for line in SHARED_SOURCE + [''] + GPU_SOURCE]
+    }
+
 PI_SETUP = {
       "cell_type": "code",
       "metadata": {
@@ -70,7 +83,7 @@ PI_SETUP = {
       },
       "outputs": [],
       "execution_count": None,
-      "source": [f"{line}\n" for line in Path("utils/shared.py.txt").read_text().strip().split("\n")]
+      "source": [f"{line}\n" for line in SHARED_SOURCE]
     }
   
 GPU_NOTEBOOKS = [
@@ -95,7 +108,7 @@ def main():
         write_cell(colab, MASTHEAD, 1)
         # 2 should be the introduction cell specific to the notebook
         write_cell(colab, PI_SETUP_GPU_MARKDOWN if f.stem in GPU_NOTEBOOKS else PI_SETUP_MARKDOWN, 3)
-        write_cell(colab, PI_SETUP, 4)
+        write_cell(colab, PI_SETUP_GPU if f.stem in GPU_NOTEBOOKS else PI_SETUP, 4)
         # For cleanliness, purge outputs and execution counts from all cells.
         for cell in colab["cells"]:
             if "outputs" in cell:
