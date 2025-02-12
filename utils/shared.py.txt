@@ -1,16 +1,20 @@
 %%capture
 
+import os
+from google.colab import files, userdata
+
+# Load the notebook secret into the environment so the Pi Client can access it.
+os.environ["WITHPI_API_KEY"] = userdata.get('WITHPI_API_KEY')
+
 %pip install withpi litellm httpx datasets jinja2 tqdm
 
 # Import a bunch of useful libraries for later.
 from concurrent.futures import ThreadPoolExecutor
 import json
-import os
 from pathlib import Path
 import re
 
 import datasets
-from google.colab import files, userdata
 import httpx
 import jinja2
 from litellm import completion

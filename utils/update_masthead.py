@@ -47,6 +47,22 @@ PI_SETUP_MARKDOWN = {
       }
     }
 
+PI_SETUP_GPU_MARKDOWN = {
+      "cell_type": "markdown",
+      "source": [
+        "## Install and initialize SDK\n",
+        "\n",
+        "This notebook needs a T4 GPU.  Make sure to select this explicitly above before proceeding.\n",
+        "\n",
+        "You'll need a WITHPI_API_KEY from https://play.withpi.ai.  Add it to your notebook secrets (the key symbol) on the left.\n",
+        "\n",
+        "Run the cell below to install packages and load the SDK"
+      ],
+      "metadata": {
+        "id": "pi-setup-markdown"
+      }
+    }
+
 PI_SETUP = {
       "cell_type": "code",
       "metadata": {
@@ -56,6 +72,10 @@ PI_SETUP = {
       "execution_count": None,
       "source": [f"{line}\n" for line in Path("utils/shared.py.txt").read_text().strip().split("\n")]
     }
+  
+GPU_NOTEBOOKS = [
+  "Low_Rank_Adaptation"
+]
 
 def write_cell(colab, cell, index):
   identifier = cell["metadata"]["id"]
@@ -74,7 +94,7 @@ def main():
         write_cell(colab, get_colab_link(f.stem), 0)
         write_cell(colab, MASTHEAD, 1)
         # 2 should be the introduction cell specific to the notebook
-        write_cell(colab, PI_SETUP_MARKDOWN, 3)
+        write_cell(colab, PI_SETUP_GPU_MARKDOWN if f.stem in GPU_NOTEBOOKS else PI_SETUP_MARKDOWN, 3)
         write_cell(colab, PI_SETUP, 4)
         # For cleanliness, purge outputs and execution counts from all cells.
         for cell in colab["cells"]:
