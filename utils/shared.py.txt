@@ -22,8 +22,11 @@ from tqdm.notebook import tqdm
 from withpi import PiClient
 from withpi.types import Contract
 
-# Load the notebook secret into the environment so the Pi Client can access it.
-os.environ["WITHPI_API_KEY"] = userdata.get('WITHPI_API_KEY')
+from rich.console import Console
+from rich.table import Table
+from rich.live import Live
+
+console = Console()
 
 client = PiClient()
 
@@ -120,18 +123,94 @@ def do_bulk_templated_inference(dataset, optimized, model):
       futures.append(executor.submit(do_generate, row["input"], pbar))
   return [future.result() for future in futures]
 
-def stream_response(job_id: str, method):
-  """stream_response streams messages from the provided method
+def generate_table(
+    job_id: str, training_data: dict, is_done: bool, additional_columns: dict[str, str]
+):
+    """Generate a training progress table dynamically."""
+    table = Table(title=f"Training Status for {job_id}")
 
-  method should be a Pi client object with `retrieve` and `stream_messages`
-  endpoints.  This is primarily for convenience."""
+    # Define columns
+    table.add_column("Step", justify="right", style="cyan")
+    table.add_column("Epoch", justify="right", style="cyan")
+    table.add_column("Learning Rate", justify="right", style="cyan")
+    table.add_column("Train Loss", justify="right", style="magenta")
+    table.add_column("Eval Loss", justify="right", style="green")
+    for header in additional_columns.keys():
+        table.add_column(header, justify="right", style="black")
 
-  while True:
-    response = method.retrieve(job_id=job_id)
-    if (response.state != 'QUEUED') and (response.state != 'RUNNING'):
-      return response
+    def format_num(num: float | None, digits: int = 4) -> str:
+        if num is None:
+            return "X"
+        return format(num, f".{digits}f")
 
-    with method.with_streaming_response.stream_messages(
-        job_id=job_id, timeout=None) as response:
-      for line in response.iter_lines():
-        print(line)
+    for step, data in training_data.items():
+        additional_columns_data = [
+            format_num(data.get(column_name, None))
+            for column_name in additional_columns.values()
+        ]
+        table.add_row(
+            str(step),
+            format_num(data.get("epoch", None)),
+            format_num(data.get("learning_rate", None), digits=10),
+            format_num(data.get("loss", None)),
+            format_num(data.get("eval_loss", None)),
+            *additional_columns_data,
+        )
+
+    if not is_done:
+        table.add_row("...", "", "", "", "", "")
+
+    return table
+
+
+def stream_response(job_id: str, method, additional_columns: dict[str, str]):
+    """stream_response streams messages from the provided method
+
+    method should be a Pi client object with `retrieve` and `stream_messages`
+    endpoints.  This is primarily for convenience."""
+
+    training_data = defaultdict(dict)
+    is_log_console = False
+
+    while True:
+        response = method.retrieve(job_id=job_id)
+        if (response.state != "QUEUED") and (response.state != "RUNNING"):
+            if response.state == "DONE" and not is_log_console:
+                for line in response.detailed_status:
+                    try:
+                        data_dict = json.loads(line)
+                        training_data[data_dict["step"]].update(data_dict)
+                    except Exception:
+                        pass
+                console.print(
+                    generate_table(
+                        job_id,
+                        training_data,
+                        is_done=True,
+                        additional_columns=additional_columns,
+                    )
+                )
+            return response
+
+        with method.with_streaming_response.stream_messages(
+            job_id=job_id, timeout=None
+        ) as response:
+            with Live(auto_refresh=True, console=console, refresh_per_second=4) as live:
+                is_done = False
+                for line in response.iter_lines():
+                    if line == "DONE":
+                        is_done = True
+                    try:
+                        data_dict = json.loads(line)
+                        training_data[data_dict["step"]].update(data_dict)
+                    except Exception:
+                        pass
+                    live.update(
+                        generate_table(
+                            job_id,
+                            training_data,
+                            is_done,
+                            additional_columns=additional_columns,
+                        )
+                    )
+                    is_log_console = True
