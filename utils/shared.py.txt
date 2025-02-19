@@ -18,8 +18,8 @@ import re
 
 import datasets
 import httpx
+import litellm
 import jinja2
-from litellm import completion
 from tqdm.notebook import tqdm
 from withpi import PiClient
 from withpi.types import Contract
@@ -52,8 +52,8 @@ def generate(system: str, user: str, model: str) -> str:
       "role": "user"
     }
   ]
-  return completion(model=model,
-                    messages=messages).choices[0].message.content
+  return litellm.completion(model=model,
+                            messages=messages).choices[0].message.content
 
 class printer(str):
   """printer makes strings with embedded newlines print more nicely"""
@@ -112,8 +112,8 @@ def do_bulk_templated_inference(dataset, optimized, model):
 
   def do_generate(prompt: str, pbar) -> str:
     messages = json.loads(prompt_template.render(input=prompt))
-    result = completion(model=model,
-                        messages=messages).choices[0].message.content
+    result = litellm.completion(model=model,
+                                messages=messages).choices[0].message.content
 
     pbar.update(1)
     return result_extractor.match(result).group(1)
