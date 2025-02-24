@@ -1,6 +1,6 @@
 {
   "name": "Default",
-  "description": "Generate a short TLDR of a subreddit post. Here are some requirement of the TLDR:\n1. Make sure that the TLDR is 1 to 3 sentence long.\n2. Make sure that the TLDR state the important points of the post\n3. Make sure that the TLDR should make sense on its own.",
+  "description": "Generate a short TLDR of a subreddit post without any surrounding text. Here are some requirement of the TLDR:\n1. Make sure that the TLDR is 1 to 3 sentence long.\n2. Make sure that the TLDR state the important points of the post\n3. Make sure that the TLDR should make sense on its own.",
   "dimensions": [
       {
           "label": "Length",
