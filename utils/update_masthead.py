@@ -36,7 +36,7 @@ PI_SETUP_MARKDOWN = {
       "source": [
         "## Install and initialize SDK\n",
         "\n",
-        "You'll need a `WITHPI_API_KEY` from https://build.withpi.ai/accounts.  Add it to your notebook secrets (the key symbol) on the left.\n",
+        "You'll need a `WITHPI_API_KEY` from https://build.withpi.ai/account.  Add it to your notebook secrets (the key symbol) on the left.\n",
         "\n",
         "Run the cell below to install packages and load the SDK"
       ],
@@ -112,8 +112,8 @@ def main():
         #write_cell(colab, PI_SETUP_GPU if f.stem in GPU_NOTEBOOKS else PI_SETUP, 4)
         # For cleanliness, purge outputs and execution counts from all cells.
         for cell in colab["cells"]:
-            if "outputs" in cell:
-              cell["outputs"] = []
+            #if "outputs" in cell:
+            #  cell["outputs"] = []
             if "execution_count" in cell:
               cell["execution_count"] = None
         colab["metadata"]["language_info"] = { "name": "python" }

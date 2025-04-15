@@ -9,4 +9,4 @@ from withpi import PiClient
 # Load the notebook secret into the environment so the Pi Client can access it.
 os.environ["WITHPI_API_KEY"] = userdata.get('WITHPI_API_KEY')
 
-client = PiClient()
+pi = PiClient()
