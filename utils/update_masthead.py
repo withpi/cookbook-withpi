@@ -20,7 +20,7 @@ def get_colab_link(filename: str) -> dict:
 
 MASTHEAD = {  "cell_type": "markdown",
       "source": [
-        "<a href=\"https://withpi.ai\"><img src=\"https://withpi.ai/logoFullBlack.svg\" width=\"240\"></a>\n",
+        "<a href=\"https://withpi.ai\"><img src=\"https://play.withpi.ai/logo/logoFullBlack.svg\" width=\"240\"></a>\n",
         "\n",
         "<a href=\"https://code.withpi.ai\"><font size=\"4\">Documentation</font></a>\n",
         "\n",
