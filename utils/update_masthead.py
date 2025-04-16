@@ -106,8 +106,8 @@ def main():
         write_cell(colab, MASTHEAD, 1)
         # 2 should be the introduction cell specific to the notebook
 
-        write_cell(colab, PI_SETUP_MARKDOWN, 3)
-        write_cell(colab, PI_SETUP, 4)
+        #write_cell(colab, PI_SETUP_MARKDOWN, 3)
+        #write_cell(colab, PI_SETUP, 4)
         #write_cell(colab, PI_SETUP_GPU_MARKDOWN if f.stem in GPU_NOTEBOOKS else PI_SETUP_MARKDOWN, 3)
         #write_cell(colab, PI_SETUP_GPU if f.stem in GPU_NOTEBOOKS else PI_SETUP, 4)
         # For cleanliness, purge outputs and execution counts from all cells.
