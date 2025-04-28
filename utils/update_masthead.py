@@ -61,7 +61,7 @@ PI_SETUP_MARKDOWN = {
 #      }
 #    }
 
-SHARED_SOURCE = Path("utils/shared.py.txt").read_text().strip().split("\n")
+#SHARED_SOURCE = Path("utils/shared.py.txt").read_text().strip().split("\n")
 #GPU_SOURCE = Path("utils/gpu.py.txt").read_text().strip().split("\n")
 
 #PI_SETUP_GPU = {
@@ -74,15 +74,15 @@ SHARED_SOURCE = Path("utils/shared.py.txt").read_text().strip().split("\n")
 #      "source": [f"{line}\n" for line in SHARED_SOURCE + [''] + GPU_SOURCE]
 #    }
 
-PI_SETUP = {
-      "cell_type": "code",
-      "metadata": {
-        "id": "pi-setup"
-      },
-      "outputs": [],
-      "execution_count": None,
-      "source": [f"{line}\n" for line in SHARED_SOURCE]
-    }
+#PI_SETUP = {
+#      "cell_type": "code",
+#      "metadata": {
+#        "id": "pi-setup"
+#      },
+#      "outputs": [],
+#      "execution_count": None,
+#      "source": [f"{line}\n" for line in SHARED_SOURCE]
+#    }
   
 #GPU_NOTEBOOKS = [
 #  "Low_Rank_Adaptation"
