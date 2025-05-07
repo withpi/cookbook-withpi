@@ -1,2 +1,2 @@
-# cookbook-withpi
+# cookbook-withpi-integrations-helicone
 Examples of adding Pi Scores to Helicone Requests using their support for [custom metrics](https://docs.helicone.ai/features/advanced-usage/scores) added via [webhooks](https://docs.helicone.ai/features/webhooks#top-use-cases). This directory contains examples of webhooks as both [CloudFlare Workers](https://developers.cloudflare.com/workers/) and [Vercel Edge Functions](https://vercel.com/docs/functions).
