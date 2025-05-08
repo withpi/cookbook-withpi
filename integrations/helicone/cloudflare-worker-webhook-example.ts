@@ -90,7 +90,7 @@ async function verifyHeliconeHmac(
 ): Promise<boolean> {
   try {
     // Get the signature from headers
-    const signature = headers.get('x-helicone-signature');
+    const signature = headers.get('helicone-signature');
     if (!signature) {
       console.warn('No Helicone signature provided');
       return false;
