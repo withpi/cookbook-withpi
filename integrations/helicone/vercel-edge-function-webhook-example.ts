@@ -210,55 +210,28 @@ export async function POST(request: Request) {
     }
 
     const pi_score = await piApiResponse.json();
-    const scoring_result: Record<string, number> = {
-      [DEFAULT_QUESTION]: pi_score['total_score'] ?? 0,
-    };
+    const total_pi_score = Math.round((pi_score['total_score'] ?? 0) * 100) as Number
+
     // Extract the request ID
     const requestId = data.request_id;
 
     // Post the scores to the scoring API.
-    const reporting_result = await postScore(
-      `https://api.helicone.ai/v1/request/${requestId}/score`,
-      scoring_result,
-      heliconeApiKey,
-    );
-
-    return new Response(JSON.stringify(reporting_result), {
+    const heliconeAuth = `Bearer ${process.env.HELICONE_API_KEY}`;
+    const heliconeResponse = await fetch(`https://api.helicone.ai/v1/request/${requestId}/score`, {
+      method: 'POST',
       headers: {
+        Authorization: heliconeAuth,
         'Content-Type': 'application/json',
       },
-      status: 200,
+      body: JSON.stringify({"scores" : {[DEFAULT_QUESTION] : total_pi_score}}),
     });
+
+    return heliconeResponse;
   } catch (error) {
     console.error('Scoring error:', error);
     return new Response(JSON.stringify({ error: 'Failed to process scoring' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
-  }
-}
-
-//Post score data back to Helicone
-async function postScore(url: string, scoreData: Record<string, number>, heliconeApiKey: string) {
-  const heliconeAuth = `Bearer ${heliconeApiKey}`;
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        Authorization: heliconeAuth,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ scores: scoreData }),
-    });
-    return {
-      status: 'Success',
-      responseStatusCode: response.status,
-      responseBody: await response.json(),
-    };
-  } catch (e: any) {
-    return {
-      status: 'Error',
-      message: e.message,
-    };
   }
 }
